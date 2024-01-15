@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Chatroom{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        #chatroom-container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #chat-messages {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            min-height: 400px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        input[type="text"] {
+            width: 70%;
+            padding: 8px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #leave-room-position {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      #leave-room {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgb(230, 58, 58);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      #leave-room:hover {
+        background-color: #b33c1e;
+      }
+    </style>
+<p id="leave-room-position"> <a href="/dashboard" id="leave-room">Leave room</a> </p>
+
+<div id="chatroom-container">
+    <h1> Room ID: {{ room_id }}</h1>
+    <div id="chat-messages"></div>
+    <form id="message-form">
+        <input type="text" id="message-input" placeholder="Type your message...">
+        <button type="submit">Send</button>
+    </form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var socket = io.connect('http://' + document.domain + ':' + location.port);
+
+    // Socket.IO event to handle incoming chat messages
+    socket.on('message', function (data) {
+        console.log('Received message:', data);
+        var messageDiv = document.createElement('div');
+        messageDiv.innerHTML = '<b>' + data.name + ':</b> ' + data.msg;
+        document.getElementById('chat-messages').appendChild(messageDiv);
+    });
+
+    // Function to send messages
+    document.getElementById('message-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var messageInput = document.getElementById('message-input');
+        var message = messageInput.value.trim();
+        if (message !== '') {
+            console.log('Sending message:', message);
+            socket.emit('message', { msg: message });
+            messageInput.value = '';
+        }
+        });
+});
+</script>
+{% endblock %}

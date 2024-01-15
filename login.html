@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      .flashes { /* style possible error messages */
+          list-style-type: none;
+          overflow: hidden;
+          position: relative;
+          color: red;
+          font-family: 'Times New Roman', Times, serif;
+          text-align: center;
+          bottom: 20px;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background-color: black;
+      }
+
+      .login-page {
+        width: 420px;
+        height: 490px;
+        position: absolute;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      .login-box {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        border-radius: 5px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+      }
+
+      .login-box h1 {
+        text-align: center;
+        padding: 40px;
+        font-size: 30px;
+        color: #333333;
+      }
+
+      .login-box form {
+        padding: 40px;
+      }
+
+      .user-box,
+      .pass-box {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .user-box input,
+      .pass-box input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        border: 1px solid #dddddd;
+      }
+
+      .pass-box input {
+        margin-top: 10px;
+      }
+
+      input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border-radius: 5px;
+        background-color: #4CAF50;
+        color: #ffffff;
+        border: 0;
+        cursor: pointer;
+      }
+
+      input[type="submit"]:hover {
+        background-color: #43a047;
+      }
+
+      a {
+        color: blue;
+        text-decoration: none;
+      }
+
+      a:hover {
+        animation: ChangeColorV2 0.5s ease forwards;
+      }
+
+      h1:hover {
+        animation: ChangeColor 0.5s ease forwards;
+      }
+
+      /* Define the animation */
+      @keyframes ChangeColor {
+            from {
+                color: black;
+            }
+
+            to {
+                color: red;
+            }
+        }
+
+        /* Define the animation */
+      @keyframes ChangeColorV2 {
+            from {
+                color: blue;
+            }
+
+            to {
+                color: red;
+            }
+        }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <div class="login-page">
+        <div class="login-box">
+          <form method="post">
+            <div class="user-box">
+              <h1>Login</h1>
+              <input type="text" name="username" placeholder="Username" required maxlength="100"/>
+            </div>
+            <div class="pass-box">
+              <input type="password" name="password" placeholder="Password" required maxlength="100" />
+            </div>
+            <input type="submit" value="Login" />
+          </form>
+
+           <!-- error messages incase the credentials don't exist-->
+           {% with messages = get_flashed_messages() %}
+           {% if messages %}
+           <p1 class=flashes>
+           {% for message in messages %}
+             <li> <b> {{ message }} </b> </li>
+           {% endfor %} 
+           </p1>
+           {% endif %} 
+           {% endwith %}
+           
+           <p2> <a href="/signup">Sign-up</a> </p2>
+           <p3> <br> <a href="/forgot_password">Forgot password?</a> </p3>
+           <p4> <br><br> <a href="/home">Home</a> </p4>
+        </div>
+      </div>
+    </main>
+  </body>
+</html>

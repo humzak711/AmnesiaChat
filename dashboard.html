@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+
+    <style>
+      html {
+        text-align: center;
+        color: white;
+        background-color: black;
+        margin: auto;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        font-family: 'Times New Roman', Times, serif;
+      }
+
+      header {
+        margin-top: 3%;
+      }
+
+      h1:hover {
+        animation: ChangeColor 0.5s ease forwards;
+      }
+
+      #logout-button-position {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      #logout-button {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: rgb(230, 58, 58);
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      #logout-button:hover {
+        background-color: #b33c1e;
+      }
+
+      #join-room-input {
+        margin: 20px auto;
+        padding: 10px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        outline: none;
+      }
+
+      #join-room-button {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      #join-room-button:hover {
+        background-color: #43a047;
+      }
+
+      #create-room-button {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+      }
+
+      #create-room-button:hover {
+        background-color: #43a047;
+      }
+
+      footer {
+        margin-top: 50px;
+      }
+
+      @keyframes ChangeColor {
+        from {
+          color: white;
+        }
+
+        to {
+          color: red;
+        }
+      }
+
+      .ERROR {
+        color: red;
+        font-family: 'Times New Roman', Times, serif;
+        list-style: none;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>Dashboard</h1>
+
+      <p id="logout-button-position"> <a href="/logout" id="logout-button">Logout</a> </p>
+
+      {% if username %}
+        <p1>You are logged in as {{ username }}</p1>
+      {% else %}
+        <p1>Welcome</p1>
+      {% endif %}
+    </header>
+
+    <main>
+      <div> 
+        <form method="post" onsubmit="return JoinRoom()">
+          <input type="text" id="join-room-input" placeholder="Enter Room ID" minlength=1 maxlength=250 required/>
+          <button type="submit" id="join-room-button">Join Room</button>
+        </form>
+      </div>
+
+      {% if ERROR %}
+        <p2 class="ERROR">{{ ERROR }}</p2>
+      {% endif %}
+    </main>
+
+    <footer>
+      <a href="{{ url_for('Chatroom.create_room') }}" id="create-room-button">Create Room</a> <!-- url for my create room function-->
+    </footer>
+
+    <script>
+      function JoinRoom() {
+        var roomID = document.getElementById('join-room-input').value;
+        var urlSafePattern = /^[a-zA-Z0-9_-]+$/;
+
+        // Check if the entered value meets the minimum length requirement
+        if (roomID.length > 250) {
+          alert('Room ID must maximum 250 characters long');
+          return false;  // Prevent default form submission
+        }
+
+        // Check if the entered value is URL safe
+        else if (!urlSafePattern.test(roomID)) {
+          alert('ERROR: Room does not exist');
+          return false;  // Prevent default form submission
+        }
+        
+        window.location.href = "{{ url_for('Chatroom.join_room', room_id='') }}" + roomID; // url for my join room function
+        return false;  // Prevent default form submission
+      }
+    </script>
+  </body> 
+</html>
+
