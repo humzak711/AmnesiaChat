@@ -28,6 +28,5 @@ if __name__ == '__main__':
 
 
 # to do:
-# make it so the messages actually render on the chatroom
  
 # implement rate limitation
