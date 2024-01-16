@@ -10,7 +10,7 @@ from blueprints.Chatroom import Chatroom_blueprint
 # Create the Flask application
 app = Flask(__name__)  
 socketio = SocketIO(app,cors_allowed_origins="*")  # Allow connections from all origins (*)
-app.secret_key = input('input app's secret key: ')
+app.secret_key = input("input app's secret key: ")
  
 # Register blueprints
 app.register_blueprint(Home_blueprint) # Front page
